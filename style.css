@@ -65,6 +65,36 @@ body {
     align-items: center;
 }
 
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    background: #2a2a35;
+    border: 1px solid #3a3a48;
+    color: #e0e0e0;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.2s;
+    margin-right: 0.5rem;
+}
+
+.theme-toggle-btn i {
+    color: #b77dff;
+}
+
+.theme-toggle-btn:hover {
+    background: #b77dff;
+    color: #1a1a24;
+    border-color: #b77dff;
+}
+
+.theme-toggle-btn:hover i {
+    color: #1a1a24;
+}
+
 .auth-buttons {
     display: flex;
     gap: 0.5rem;
@@ -782,39 +812,25 @@ body {
     margin: 0.5rem 0;
     cursor: pointer;
 }
-/* Add these styles at the end of your existing CSS file */
 
-/* Theme Toggle Button */
-.theme-toggle-btn {
+.admin-hint {
     background: #2a2a35;
-    border: 1px solid #3a3a48;
-    color: #e0e0e0;
-    padding: 0.5rem 1.2rem;
-    border-radius: 30px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    transition: all 0.2s;
+    border: 1px solid #b77dff;
+    border-radius: 8px;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    text-align: center;
+}
+.admin-hint i {
+    color: #b77dff;
     margin-right: 0.5rem;
 }
-
-.theme-toggle-btn i {
+.admin-hint strong {
     color: #b77dff;
 }
 
-.theme-toggle-btn:hover {
-    background: #b77dff;
-    color: #1a1a24;
-    border-color: #b77dff;
-}
-
-.theme-toggle-btn:hover i {
-    color: #1a1a24;
-}
-
-/* Light Theme Variables */
+/* Light Theme (preserves purple accent) */
 body.light-theme {
     background: #f5f5f5;
     color: #333333;
@@ -824,10 +840,6 @@ body.light-theme .booking-header {
     background: #ffffff;
     border-bottom: 2px solid #b77dff;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-body.light-theme .booking-header .logo {
-    color: #b77dff;
 }
 
 body.light-theme .booking-nav a {
@@ -855,7 +867,6 @@ body.light-theme .dashboard-card {
 body.light-theme .search-hero h1,
 body.light-theme .property-name,
 body.light-theme .price,
-body.light-theme .section-header h2,
 body.light-theme .dashboard-card h3 {
     color: #b77dff;
 }
