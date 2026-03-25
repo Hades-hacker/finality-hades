@@ -782,3 +782,184 @@ body {
     margin: 0.5rem 0;
     cursor: pointer;
 }
+/* Add these styles at the end of your existing CSS file */
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    background: #2a2a35;
+    border: 1px solid #3a3a48;
+    color: #e0e0e0;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.2s;
+    margin-right: 0.5rem;
+}
+
+.theme-toggle-btn i {
+    color: #b77dff;
+}
+
+.theme-toggle-btn:hover {
+    background: #b77dff;
+    color: #1a1a24;
+    border-color: #b77dff;
+}
+
+.theme-toggle-btn:hover i {
+    color: #1a1a24;
+}
+
+/* Light Theme Variables */
+body.light-theme {
+    background: #f5f5f5;
+    color: #333333;
+}
+
+body.light-theme .booking-header {
+    background: #ffffff;
+    border-bottom: 2px solid #b77dff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+body.light-theme .booking-header .logo {
+    color: #b77dff;
+}
+
+body.light-theme .booking-nav a {
+    background: #f0f0f0;
+    border-color: #e0e0e0;
+    color: #666666;
+}
+
+body.light-theme .booking-nav a.active {
+    background: #b77dff;
+    color: white;
+}
+
+body.light-theme .search-hero,
+body.light-theme .property-card,
+body.light-theme .upload-section,
+body.light-theme .admin-panel,
+body.light-theme .chat-monitor,
+body.light-theme .dashboard-card {
+    background: #ffffff;
+    border-color: #e0e0e0;
+    color: #333333;
+}
+
+body.light-theme .search-hero h1,
+body.light-theme .property-name,
+body.light-theme .price,
+body.light-theme .section-header h2,
+body.light-theme .dashboard-card h3 {
+    color: #b77dff;
+}
+
+body.light-theme .property-location,
+body.light-theme .contact-info,
+body.light-theme .search-hero p {
+    color: #666666;
+}
+
+body.light-theme .booking-search,
+body.light-theme .search-field,
+body.light-theme .upload-form input,
+body.light-theme .upload-form textarea,
+body.light-theme .upload-form select,
+body.light-theme .payment-form input {
+    background: #f8f8f8;
+    border-color: #e0e0e0;
+    color: #333333;
+}
+
+body.light-theme .auth-btn,
+body.light-theme .theme-toggle-btn {
+    background: #f0f0f0;
+    border-color: #e0e0e0;
+    color: #666666;
+}
+
+body.light-theme .auth-btn i,
+body.light-theme .theme-toggle-btn i {
+    color: #b77dff;
+}
+
+body.light-theme .profile-trigger {
+    background: #f0f0f0;
+    border-color: #e0e0e0;
+}
+
+body.light-theme .profile-name {
+    color: #333333;
+}
+
+body.light-theme .profile-dropdown {
+    background: #ffffff;
+    border-color: #e0e0e0;
+}
+
+body.light-theme .dropdown-item {
+    color: #333333;
+}
+
+body.light-theme .dropdown-item:hover {
+    background: #f5f5f5;
+}
+
+body.light-theme .pending-house-card,
+body.light-theme .transaction-item,
+body.light-theme .email-item,
+body.light-theme .conversation-item,
+body.light-theme .admin-message {
+    background: #f8f8f8;
+    border-color: #e0e0e0;
+    color: #333333;
+}
+
+body.light-theme .modal-content {
+    background: #ffffff;
+    border-color: #b77dff;
+}
+
+body.light-theme .modal-header {
+    background: #f8f8f8;
+    color: #b77dff;
+}
+
+body.light-theme .booking-summary,
+body.light-theme .booking-dates,
+body.light-theme .payment-method-btn {
+    background: #f8f8f8;
+    border-color: #e0e0e0;
+    color: #333333;
+}
+
+body.light-theme .payment-method-btn.active {
+    background: #f0e6ff;
+    border-color: #b77dff;
+}
+
+body.light-theme .toast {
+    background: #ffffff;
+    border-color: #e0e0e0;
+    color: #333333;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+body.light-theme .footer-section a {
+    color: #666666;
+}
+
+body.light-theme .footer-section a:hover {
+    color: #b77dff;
+}
+
+body.light-theme .booking-footer {
+    background: #ffffff;
+    border-top: 2px solid #b77dff;
+}
