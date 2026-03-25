@@ -18,6 +18,11 @@
                     <span class="api-status"><i class="fas fa-camera"></i> Photo Upload | <i class="fas fa-credit-card"></i> Stripe + M-PESA</span>
                 </div>
                 <div class="user-menu">
+                    <!-- Theme Toggle Button -->
+                    <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeToggleBtn">
+                        <i class="fas fa-moon"></i> Dark
+                    </button>
+                    
                     <div class="auth-buttons" id="authButtons">
                         <button class="auth-btn" onclick="showLoginModal()"><i class="fas fa-sign-in-alt"></i> Sign In</button>
                         <button class="auth-btn" onclick="showSignupModal()"><i class="fas fa-user-plus"></i> Sign Up</button>
@@ -165,6 +170,7 @@
     <script src="js/payment.js"></script>
     <script src="js/properties.js"></script>
     <script src="js/admin.js"></script>
+    <script src="js/theme.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
