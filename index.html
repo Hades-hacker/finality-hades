@@ -6,7 +6,7 @@
     <title>BHAST HOUSE · Complete Luxury Properties Platform</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
     <script src="https://js.stripe.com/v3/"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header class="booking-header">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="user-menu">
                     <!-- Theme Toggle Button -->
-                    <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeToggleBtn">
+                    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
                         <i class="fas fa-moon"></i> Dark
                     </button>
                     
@@ -94,7 +94,10 @@
         </div>
 
         <div id="adminPanel" class="admin-panel" style="display:none;">
-            <h2 style="color:#b77dff;"><i class="fas fa-crown"></i> Admin - Pending Approvals</h2>
+            <h2 style="color:#b77dff;"><i class="fas fa-crown"></i> Admin Control Panel</h2>
+            <div class="admin-hint">
+                <i class="fas fa-info-circle"></i> You are logged in as <strong id="adminNameDisplay">Admin</strong> | <i class="fas fa-building"></i> Manage all property listings
+            </div>
             <div id="pendingHousesList"></div>
         </div>
 
@@ -147,10 +150,13 @@
     <div id="loginModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; justify-content:center; align-items:center;">
         <div style="background:#1a1a24; padding:2rem; border-radius:16px; max-width:400px; width:90%; border:2px solid #b77dff;">
             <h3>Sign In</h3>
-            <input type="text" id="loginUsername" placeholder="Username" style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#2a2a35; border:1px solid #3a3a48; border-radius:8px; color:white;">
+            <div class="admin-hint" style="margin-bottom:1rem;">
+                <i class="fas fa-crown"></i> <strong>Admin Account:</strong> bhast_admin / bhast2025
+            </div>
+            <input type="text" id="loginUsername" placeholder="Username or Email" style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#2a2a35; border:1px solid #3a3a48; border-radius:8px; color:white;">
             <input type="password" id="loginPassword" placeholder="Password" style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#2a2a35; border:1px solid #3a3a48; border-radius:8px; color:white;">
             <button onclick="login()" style="width:100%; padding:0.8rem; background:#b77dff; border:none; border-radius:8px; font-weight:600; cursor:pointer;">Sign In</button>
-            <p style="margin-top:1rem; font-size:0.8rem; color:#b0b0b0;">Demo: username 'demo', password 'password123'<br>Admin: username 'admin', password 'admin123'</p>
+            <p style="margin-top:1rem; font-size:0.8rem; color:#b0b0b0;">Demo: username 'demo', password 'password123'<br>Admin: username 'bhast_admin', password 'bhast2025'</p>
             <button onclick="closeLoginModal()" style="margin-top:1rem; width:100%; padding:0.5rem; background:#2a2a35; border:none; border-radius:8px; cursor:pointer;">Close</button>
         </div>
     </div>
@@ -164,7 +170,13 @@
             <div class="footer-section"><h4>Areas</h4><a onclick="filterByArea('Karen')">Karen</a><a onclick="filterByArea('Westlands')">Westlands</a><a onclick="filterByArea('Runda')">Runda</a><a onclick="filterByArea('Diani')">Diani</a><a onclick="filterByArea('Naivasha')">Naivasha</a></div>
         </div>
     </footer>
-    <script src="java.js"></script> 
 
+    <script src="js/auth.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/payment.js"></script>
+    <script src="js/properties.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
