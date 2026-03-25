@@ -1,0 +1,84 @@
+const stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+let transactions = JSON.parse(localStorage.getItem('bhast_transactions')) || [];
+let emailLog = JSON.parse(localStorage.getItem('bhast_emails')) || [];
+let currentBooking = null;
+let selectedMethod = 'mpesa';
+
+function openPaymentModal(houseId) {
+    if (!currentUser) { showToast('Please login to book'); showLoginModal(); return; }
+    const house = houses.find(h => h.id === houseId);
+    if (!house) return;
+    currentBooking = { houseId: house.id, property: house.title, area: house.place, price: house.nightly_rate, guests: 2 };
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('checkInDate').valueAsDate = new Date();
+    document.getElementById('checkOutDate').valueAsDate = tomorrow;
+    updateBookingSummary();
+    updatePaymentForm();
+    document.getElementById('paymentModal').style.display = 'flex';
+}
+
+function closePaymentModal() { 
+    document.getElementById('paymentModal').style.display = 'none'; 
+    document.getElementById('paymentStatus').style.display = 'none'; 
+}
+
+function selectPaymentMethod(method) { 
+    selectedMethod = method; 
+    document.querySelectorAll('.payment-method-btn').forEach(btn => btn.classList.remove('active')); 
+    event.currentTarget.classList.add('active'); 
+    updatePaymentForm(); 
+}
+
+function updatePaymentForm() {
+    const formDiv = document.getElementById('paymentForm');
+    if (selectedMethod === 'mpesa') formDiv.innerHTML = `<input type="tel" id="mpesaPhone" placeholder="M-PESA Phone Number (e.g., 254712345678)" value="254712345678"><div style="font-size:0.8rem;">You will receive an STK push</div>`;
+    else if (selectedMethod === 'card') formDiv.innerHTML = `<input type="text" id="cardHolderName" placeholder="Cardholder Name"><div id="card-element"></div><div id="card-errors"></div>`;
+    else if (selectedMethod === 'paypal') formDiv.innerHTML = `<input type="email" id="paypalEmail" placeholder="PayPal Email">`;
+    else formDiv.innerHTML = `<div style="text-align:center;"><i class="fas fa-university" style="font-size:3rem;"></i><p>Bank details will be sent to your email</p></div>`;
+    if (selectedMethod === 'card') { const elements = stripe.elements(); const cardElement = elements.create('card', { style: { base: { color: '#e0e0e0', fontSize: '16px' } } }); cardElement.mount('#card-element'); }
+}
+
+function updateBookingSummary() {
+    const checkIn = new Date(document.getElementById('checkInDate').value);
+    const checkOut = new Date(document.getElementById('checkOutDate').value);
+    const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+    const total = currentBooking.price * nights;
+    document.getElementById('bookingSummary').innerHTML = `
+        <div class="summary-row"><span>${currentBooking.property}</span><span>${currentBooking.area}</span></div>
+        <div class="summary-row"><span>Nights</span><span>${nights}</span></div>
+        <div class="summary-row"><span>Guests</span><span>${currentBooking.guests}</span></div>
+        <div class="summary-row summary-total"><span>Total</span><span>KES ${total.toLocaleString()}</span></div>
+    `;
+    return { nights, total };
+}
+
+async function processPayment() {
+    const checkIn = document.getElementById('checkInDate').value, checkOut = document.getElementById('checkOutDate').value;
+    if (!checkIn || !checkOut) { showToast('Select dates'); return; }
+    const update = updateBookingSummary();
+    const statusDiv = document.getElementById('paymentStatus');
+    statusDiv.style.display = 'block';
+    statusDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing...';
+    setTimeout(() => {
+        const transaction = { id: 'TXN_' + Date.now(), method: selectedMethod.toUpperCase(), amount: update.total, status: 'completed', property: currentBooking.property, timestamp: new Date().toLocaleString() };
+        transactions.unshift(transaction);
+        localStorage.setItem('bhast_transactions', JSON.stringify(transactions));
+        emailLog.unshift({ to: currentUser.email, subject: `Booking confirmed: ${currentBooking.property}`, time: new Date().toLocaleString() });
+        localStorage.setItem('bhast_emails', JSON.stringify(emailLog));
+        statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> Payment successful! Booking confirmed.`;
+        statusDiv.style.background = '#1a3a2a';
+        updateTransactionHistory(); updateEmailHistory();
+        showToast('✅ Booking confirmed!');
+        setTimeout(closePaymentModal, 2000);
+    }, 1500);
+}
+
+function updateTransactionHistory() { 
+    const div = document.getElementById('transactionHistory'); 
+    div.innerHTML = transactions.slice(0,5).map(t => `<div class="transaction-item"><strong>${t.property}</strong> · KES ${t.amount}<div style="font-size:0.7rem;">${t.date}</div></div>`).join('') || '<div>No bookings</div>'; 
+}
+
+function updateEmailHistory() { 
+    const div = document.getElementById('emailHistory'); 
+    div.innerHTML = emailLog.slice(0,5).map(e => `<div class="email-item"><strong>To: ${e.to}</strong><div>${e.subject}</div><div style="font-size:0.7rem;">${e.time}</div></div>`).join('') || '<div>No emails</div>'; 
+}
