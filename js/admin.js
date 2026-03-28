@@ -1,3 +1,6 @@
+// ==================== ADMIN MODULE ====================
+// Controls admin panel, house approvals, and chat monitoring
+
 function showAdminPanel() { 
     if (currentUser?.role !== 'admin') { 
         showToast('Admin access only. Please log in with admin credentials.'); 
@@ -29,16 +32,23 @@ function approveHouse(id) {
         localStorage.setItem('bhast_houses', JSON.stringify(houses)); 
         loadPendingHouses(); 
         renderProperties(); 
-        showToast('✅ House approved!'); 
+        showToast('✅ House approved!');
+        const houseOwner = users.find(u => u.id === houses[index].host_id);
+        if (houseOwner) sendEmail(houseOwner.email, 'House Approved!', `Your house "${houses[index].title}" has been approved and is now live on BHAST HOUSE!`);
     } 
 }
 
 function rejectHouse(id) { 
+    const rejectedHouse = houses.find(h => h.id === id);
     houses = houses.filter(h => h.id !== id); 
     localStorage.setItem('bhast_houses', JSON.stringify(houses)); 
     loadPendingHouses(); 
     renderProperties(); 
-    showToast('❌ House rejected'); 
+    showToast('❌ House rejected');
+    if (rejectedHouse) {
+        const houseOwner = users.find(u => u.id === rejectedHouse.host_id);
+        if (houseOwner) sendEmail(houseOwner.email, 'House Submission Update', `Your house "${rejectedHouse.title}" was not approved. Please review the listing details and resubmit.`);
+    }
 }
 
 function showChatMonitor() { 
