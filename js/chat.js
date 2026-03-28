@@ -1,3 +1,6 @@
+// ==================== CHAT MODULE ====================
+// Handles real-time messaging between users and hosts
+
 let conversations = JSON.parse(localStorage.getItem('bhast_conversations')) || [];
 let messages = JSON.parse(localStorage.getItem('bhast_messages')) || [];
 let currentConversation = null;
@@ -35,6 +38,13 @@ function sendChatMessage() {
     localStorage.setItem('bhast_messages', JSON.stringify(messages));
     loadChatMessages(currentConversation.id);
     input.value = '';
+    
+    // Send email notification for new message
+    const otherParticipant = currentConversation.participants.find(p => p !== currentUser.id);
+    const otherUser = users.find(u => u.id === otherParticipant);
+    if (otherUser) {
+        sendEmail(otherUser.email, 'New Message', `You have a new message from ${currentUser.name}: "${content}"`);
+    }
     if (currentUser.role === 'admin' && document.getElementById('chatMonitor').style.display !== 'none') loadAdminConversations();
 }
 
