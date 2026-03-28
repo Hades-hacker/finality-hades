@@ -1,3 +1,6 @@
+// ==================== PAYMENT MODULE ====================
+// Handles Stripe, M-PESA, PayPal, and bank transfer payments
+
 const stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 let transactions = JSON.parse(localStorage.getItem('bhast_transactions')) || [];
 let emailLog = JSON.parse(localStorage.getItem('bhast_emails')) || [];
@@ -43,12 +46,7 @@ function updateBookingSummary() {
     const checkOut = new Date(document.getElementById('checkOutDate').value);
     const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
     const total = currentBooking.price * nights;
-    document.getElementById('bookingSummary').innerHTML = `
-        <div class="summary-row"><span>${currentBooking.property}</span><span>${currentBooking.area}</span></div>
-        <div class="summary-row"><span>Nights</span><span>${nights}</span></div>
-        <div class="summary-row"><span>Guests</span><span>${currentBooking.guests}</span></div>
-        <div class="summary-row summary-total"><span>Total</span><span>KES ${total.toLocaleString()}</span></div>
-    `;
+    document.getElementById('bookingSummary').innerHTML = `<div class="summary-row"><span>${currentBooking.property}</span><span>${currentBooking.area}</span></div><div class="summary-row"><span>Nights</span><span>${nights}</span></div><div class="summary-row"><span>Guests</span><span>${currentBooking.guests}</span></div><div class="summary-row summary-total"><span>Total</span><span>KES ${total.toLocaleString()}</span></div>`;
     return { nights, total };
 }
 
@@ -63,8 +61,7 @@ async function processPayment() {
         const transaction = { id: 'TXN_' + Date.now(), method: selectedMethod.toUpperCase(), amount: update.total, status: 'completed', property: currentBooking.property, timestamp: new Date().toLocaleString() };
         transactions.unshift(transaction);
         localStorage.setItem('bhast_transactions', JSON.stringify(transactions));
-        emailLog.unshift({ to: currentUser.email, subject: `Booking confirmed: ${currentBooking.property}`, time: new Date().toLocaleString() });
-        localStorage.setItem('bhast_emails', JSON.stringify(emailLog));
+        sendEmail(currentUser.email, 'Booking Confirmed!', `Your booking for ${currentBooking.property} has been confirmed. Total: KES ${update.total.toLocaleString()}`);
         statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> Payment successful! Booking confirmed.`;
         statusDiv.style.background = '#1a3a2a';
         updateTransactionHistory(); updateEmailHistory();
