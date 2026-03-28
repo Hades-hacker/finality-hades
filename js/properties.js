@@ -1,7 +1,11 @@
+// ==================== PROPERTIES MODULE ====================
+// Manages property listings, photos, and filtering
+
 let houses = JSON.parse(localStorage.getItem('bhast_houses')) || [];
 let currentFilter = { type: 'all', area: 'all' };
 let uploadedPhotos = [];
 
+// Initialize properties if empty
 if (houses.length === 0) {
     houses = [
         { id: 1, title: "Skyline Penthouse", place: "Karen", house_number: "A12", zip_code: "00100", contact_number: "+254712345678", description: "Stunning penthouse with panoramic views", nightly_rate: 63000, photos: ["https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800"], is_verified: true, host_id: "host_1", type: "penthouse" },
@@ -13,9 +17,7 @@ if (houses.length === 0) {
         { id: 7, title: "Beachfront Villa", place: "Diani", house_number: "G12", zip_code: "80401", contact_number: "+254778901234", description: "Stunning villa right on the beach", nightly_rate: 180000, photos: ["https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"], is_verified: true, host_id: "host_1", type: "villa" },
         { id: 8, title: "Minimalist Smart Home", place: "Lavington", house_number: "H34", zip_code: "00100", contact_number: "+254789012345", description: "Tech-enabled modern home", nightly_rate: 52000, photos: ["https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"], is_verified: true, host_id: "host_1", type: "house" },
         { id: 9, title: "Classic Mansion", place: "Karen", house_number: "I56", zip_code: "00100", contact_number: "+254790123456", description: "Elegant classic mansion", nightly_rate: 300000, photos: ["https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800"], is_verified: true, host_id: "host_1", type: "mansion" },
-        { id: 10, title: "Desert Villa", place: "Kajiado", house_number: "J78", zip_code: "01100", contact_number: "+254801234567", description: "Unique desert oasis", nightly_rate: 70000, photos: ["https://images.unsplash.com/photo-1600585154207-0a98b62f7b6d?w=800"], is_verified: true, host_id: "host_1", type: "villa" },
-        { id: 11, title: "Sunset Heights", place: "Karen", house_number: "K90", zip_code: "00100", contact_number: "+254812345678", description: "Beautiful modern house with garden view", nightly_rate: 45000, photos: ["https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800"], is_verified: true, host_id: "host_1", type: "house" },
-        { id: 12, title: "Green Acres", place: "Lavington", house_number: "L12", zip_code: "00100", contact_number: "+254823456789", description: "Spacious family home", nightly_rate: 38000, photos: ["https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800"], is_verified: true, host_id: "host_1", type: "house" }
+        { id: 10, title: "Desert Villa", place: "Kajiado", house_number: "J78", zip_code: "01100", contact_number: "+254801234567", description: "Unique desert oasis", nightly_rate: 70000, photos: ["https://images.unsplash.com/photo-1600585154207-0a98b62f7b6d?w=800"], is_verified: true, host_id: "host_1", type: "villa" }
     ];
     localStorage.setItem('bhast_houses', JSON.stringify(houses));
 }
@@ -98,6 +100,7 @@ function uploadHouse() {
     houses.push(newHouse);
     localStorage.setItem('bhast_houses', JSON.stringify(houses));
     showToast('✅ House submitted for approval!');
+    sendEmail('admin@bhast.house', 'New House Submission', `A new house "${newHouse.title}" has been submitted for approval.`);
     document.getElementById('uploadForm').style.display = 'none';
     uploadedPhotos = [];
     document.getElementById('photoPreview').innerHTML = '';
